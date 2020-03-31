@@ -12,33 +12,94 @@ const Square = props => {
 
 // Board: renders 9 squares.
 class Board extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { squares: Array(9).fill(null), xIsNext: true };
-  }
+  //   constructor(props) {
+  //     super(props);
+  //     this.state = { squares: Array(9).fill(null), xIsNext: true };
+  //   }
 
-  handleClick = i => {
-    const squares = this.state.squares.slice(); // array.slice: return a shallow copy of array, without modifying the original array
+  //   handleClick = i => {
+  //     const squares = this.state.squares.slice(); // array.slice: return a shallow copy of array, without modifying the original array
 
-    if (this.calculateWinner(squares) || squares[i]) {
-      // handleClick to return early by ignoring a click if someone has won the game or if a Square is already filled:
-      return;
-    }
-    const { xIsNext } = this.state;
-    squares[i] = xIsNext ? "X" : "O";
-    this.setState({ squares, xIsNext: !xIsNext });
+  //     if (this.calculateWinner(squares) || squares[i]) {
+  //       // handleClick to return early by ignoring a click if someone has won the game or if a Square is already filled:
+  //       return;
+  //     }
+  //     const { xIsNext } = this.state;
+  //     squares[i] = xIsNext ? "X" : "O";
+  //     this.setState({ squares, xIsNext: !xIsNext });
 
-    console.log(squares);
-  };
+  //     console.log(squares);
+  //   };
 
   renderSquare(i) {
     return (
       <Square
-        value={this.state.squares[i]}
-        onClick={() => this.handleClick(i)}
+        value={this.props.squares[i]}
+        onClick={() => this.props.handleClick(i)}
       />
     );
   }
+
+  render() {
+    // const { xIsNext, squares } = this.state;
+    // // const winner = this.calculateWinner(squares);
+    // let status;
+    // if (winner) {
+    //   status = `Congrutulations, Player ${winner} won!`;
+    // } else if (!squares.includes(null)) {
+    //   status = `No one won this game`;
+    // } else {
+    //   status = `Next player: Player ${xIsNext ? "X" : "O"}`;
+    // }
+
+    return (
+      <div>
+        <div className="status">{this.props.status}</div>
+        <div className="board-row">
+          {this.renderSquare(0)}
+          {this.renderSquare(1)}
+          {this.renderSquare(2)}
+        </div>
+        <div className="board-row">
+          {this.renderSquare(3)}
+          {this.renderSquare(4)}
+          {this.renderSquare(5)}
+        </div>
+        <div className="board-row">
+          {this.renderSquare(6)}
+          {this.renderSquare(7)}
+          {this.renderSquare(8)}
+        </div>
+      </div>
+    );
+  }
+}
+
+// Game component: renders a board with placeholder values
+class Game extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { history: [{ squares: Array(9).fill(null) }], xIsNext: true };
+  }
+
+  handleClick = i => {
+    const { history } = this.state;
+    const current = history[history.length - 1];
+    // const squares = this.state.squares.slice();
+    const squares = current.squares.slice();
+
+    if (this.calculateWinner(squares) || squares[i]) {
+      return;
+    }
+    const { xIsNext } = this.state;
+    squares[i] = xIsNext ? "X" : "O";
+    this.setState({
+      history: history.concat([{ squares }]), // Use concat() here as it doesn’t mutate the original array
+      xIsNext: !xIsNext
+    });
+
+    console.log(squares);
+  };
 
   calculateWinner(squares) {
     const lines = [
@@ -65,47 +126,23 @@ class Board extends React.Component {
   }
 
   render() {
-    const { xIsNext, squares } = this.state;
-    const winner = this.calculateWinner(squares);
+    const { history, xIsNext } = this.state;
+    const current = history[history.length - 1];
+    const winner = this.calculateWinner(current.squares);
+
     let status;
     if (winner) {
       status = `Congrutulations, Player ${winner} won!`;
-    } else if (!squares.includes(null)) {
+    } else if (!current.squares.includes(null)) {
       status = `No one won this game`;
     } else {
       status = `Next player: Player ${xIsNext ? "X" : "O"}`;
     }
 
     return (
-      <div>
-        <div className="status">{status}</div>
-        <div className="board-row">
-          {this.renderSquare(0)}
-          {this.renderSquare(1)}
-          {this.renderSquare(2)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(3)}
-          {this.renderSquare(4)}
-          {this.renderSquare(5)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(6)}
-          {this.renderSquare(7)}
-          {this.renderSquare(8)}
-        </div>
-      </div>
-    );
-  }
-}
-
-// Game component: renders a board with placeholder values
-class Game extends React.Component {
-  render() {
-    return (
       <div className="game">
         <div className="game-board">
-          <Board />
+          <Board squares={current.squares} onClick={i => this.handleClick(i)} />
         </div>
         <div className="game-info">
           <div>{/* status */}</div>
