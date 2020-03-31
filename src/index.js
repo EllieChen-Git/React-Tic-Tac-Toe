@@ -3,18 +3,36 @@ import ReactDOM from "react-dom";
 import "./index.css";
 
 // Square component: renders a single <button>
-// Board: renders 9 squares.
-// Game component: renders a board with placeholder values
-
 class Square extends React.Component {
   render() {
-    return <button className="square">{/* TODO */}</button>;
+    return (
+      <button className="square" onClick={() => this.props.onClick()}>
+        {this.props.value}
+      </button>
+    );
   }
 }
 
+// Board: renders 9 squares.
 class Board extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { squares: Array(9).fill(null) };
+  }
+
+  handleClick = i => {
+    const squares = this.state.squares.slice(); // array.slice: return a shallow copy of array, without modifying the original array
+    squares[i] = "X";
+    this.setState({ squares });
+  };
+
   renderSquare(i) {
-    return <Square />;
+    return (
+      <Square
+        value={this.state.squares[i]}
+        onClick={() => this.handleClick(i)}
+      />
+    );
   }
 
   render() {
@@ -43,6 +61,7 @@ class Board extends React.Component {
   }
 }
 
+// Game component: renders a board with placeholder values
 class Game extends React.Component {
   render() {
     return (
