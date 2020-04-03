@@ -4,7 +4,7 @@ React Tutorial from React Docs: https://reactjs.org/tutorial/tutorial.html
 
 ---
 
-### What is tic-tac-toe?  
+### What is tic-tac-toe?
 
 - Tic-tac-toe (American English), noughts and crosses (British English), or Xs and Os is a paper-and-pencil game for two players, X and O, who take turns marking the spaces in a 3×3 grid - [Wikipedia](https://en.wikipedia.org/wiki/Tic-tac-toe).
 
@@ -13,6 +13,23 @@ React Tutorial from React Docs: https://reactjs.org/tutorial/tutorial.html
 ---
 
 ### Class components, State Management, Passing Props (from parent to child)
+
+0. Passing props
+
+- When React sees an element representing a user-defined component, it passes JSX attributes and children to this component as a single object. We call this object “props”.
+
+```javascript
+const App = () => {
+  return <Playground name="Mickey Mouse" />;
+};
+```
+
+```javascript
+const Playground = props => {
+  console.log(props); // {name: "Mickey Mouse"}
+  return <h1>The Playground of {props.name}!</h1>;
+};
+```
 
 1. [child] Value is saved in 'state' of child component
 
@@ -45,7 +62,7 @@ render() {
 ```
 
 3. [child -> parent] Lift value from 'state' of child component up to 'props/ this.state' in parent component
-4. [parent ->  child] pass 'props' from 'parent' component to 'child' component (now the value is saved in props in the 'parent')
+4. [parent -> child] pass 'props' from 'parent' component to 'child' component (now the value is saved in props in the 'parent')
 
 ```javascript
 // Passing props: how information flows in React apps, from parents to children. The parent component can pass the state back down to the children by using props.
@@ -92,31 +109,9 @@ class Board extends React.Component {
       // In React, it’s conventional to use on[Event] names for props which represent events and handle[Event] for the methods which handle the events.
 ```
 
-
-6. [parent ->  child]: pass 'props/ onClick()' to 'child' component 'onClick={() => this.props.onClick()' (child components are now controlled components. The parent has full control over them.)
-
-```javascript
-class Square extends React.Component {
-  render() {
-    return (
-      <button
-        className="square"
-        onClick={() => this.props.onClick()}
-      >
-        {this.props.value}
-      </button>
-    );
-  }
-}
-```
----
-
-### Functional components
-
-- Change from class to functional components
+6. [parent -> child]: pass 'props/ onClick()' to 'child' component 'onClick={() => this.props.onClick()' (child components are now controlled components. The parent has full control over them.)
 
 ```javascript
-// Class component
 class Square extends React.Component {
   render() {
     return (
@@ -126,55 +121,51 @@ class Square extends React.Component {
     );
   }
 }
-
-// Functional component
-const Square = props => { // Pass props as parameter here
-// remove 'render()' here
-  return (
-      // Change from 'this.props' to 'props'
-      // onClick: change from '() => this.props.onClick()' to 'props.onClick'
-    <button className="square" onClick={props.onClick}> 
-      {props.value}
-    </button>
-  );
-};
 ```
 
-
-
-
+---
 
 ```javascript
 ```
+
 ```javascript
 ```
+
 ```javascript
 ```
+
 ```javascript
 ```
+
 ```javascript
 ```
+
 ```javascript
 ```
+
 ```javascript
 ```
+
 ```javascript
 ```
+
 ```javascript
 ```
+
 ```javascript
 ```
+
 ```javascript
 ```
+
 ```javascript
 ```
+
 ```javascript
 ```
+
 ```javascript
 ```
-```javascript
-```
-```javascript
-```
+
 ```javascript
 ```
