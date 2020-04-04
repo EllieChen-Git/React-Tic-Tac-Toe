@@ -1,171 +1,42 @@
 # React-Tic-Tac-Toe
 
-React Tutorial from React Docs: https://reactjs.org/tutorial/tutorial.html
+- A bilingual tic-tac-toe game built on top of React Tutorial from React Docs: https://reactjs.org/tutorial/tutorial.html
 
 ---
 
 ### What is tic-tac-toe?
 
-- Tic-tac-toe (American English), noughts and crosses (British English), or Xs and Os is a paper-and-pencil game for two players, X and O, who take turns marking the spaces in a 3×3 grid - [Wikipedia](https://en.wikipedia.org/wiki/Tic-tac-toe).
+- Tic-tac-toe (American English), noughts and crosses (British English), or Xs and Os is a paper-and-pencil game for two players, X and O, who take turns marking the spaces in a 3×3 grid <[Wikipedia](https://en.wikipedia.org/wiki/Tic-tac-toe)>.
 
-- In Mandarin (as least in Taiwan), we call this game '圈圈叉叉' while '圈 (chiuān)' means 'circles' and '叉 (chā)' means 'crosses'.
-
----
-
-### Class components, State Management, Passing Props (from parent to child)
-
-0. Passing props
-
-- When React sees an element representing a user-defined component, it passes JSX attributes and children to this component as a single object. We call this object “props”.
-
-```javascript
-const App = () => {
-  return <Playground name="Mickey Mouse" />;
-};
-```
-
-```javascript
-const Playground = props => {
-  console.log(props); // {name: "Mickey Mouse"}
-  return <h1>The Playground of {props.name}!</h1>;
-};
-```
-
-1. [child] Value is saved in 'state' of child component
-
-```javascript
-// State: In React, components use state to 'remember' things.
-
-class Square extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: null,
-    };
-  }
-```
-
-2. [child] create an event handler (e.g. onClick) & use setState to store the change of value in 'state' of child component
-
-```javascript
-class Square extends React.Component {
-    // ...
-render() {
-    return (
-      <button
-        onClick={() => this.setState({value: 'X'})}
-      >
-        {this.state.value}
-      </button>
-    );
-  }
-```
-
-3. [child -> parent] Lift value from 'state' of child component up to 'props/ this.state' in parent component
-4. [parent -> child] pass 'props' from 'parent' component to 'child' component (now the value is saved in props in the 'parent')
-
-```javascript
-// Passing props: how information flows in React apps, from parents to children. The parent component can pass the state back down to the children by using props.
-
-class Board extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      squares: Array(9).fill(null),
-    };
-  }
-
-  renderSquare(i) {
-    return <Square value={this.state.squares[i]} />;
-  }
-  // ...
-```
-
-```javascript
-class Square extends React.Component {
-//...
-      <button >
-        {this.props.value}
-      </button>
-```
-
-5. [parent] Create an event handler 'onClick={() => this.handleClick(i)}' (also create handleClick(i) function)
-
-```javascript
-class Board extends React.Component {
-    // ...
-  handleClick(i) {
-    const squares = this.state.squares.slice();
-    squares[i] = 'X';
-    this.setState({squares: squares});
-  }
-
-  renderSquare(i) {
-    return (
-      <Square
-        value={this.state.squares[i]}
-        onClick={() => this.handleClick(i)}
-      />
-      // In React, it’s conventional to use on[Event] names for props which represent events and handle[Event] for the methods which handle the events.
-```
-
-6. [parent -> child]: pass 'props/ onClick()' to 'child' component 'onClick={() => this.props.onClick()' (child components are now controlled components. The parent has full control over them.)
-
-```javascript
-class Square extends React.Component {
-  render() {
-    return (
-      <button className="square" onClick={() => this.props.onClick()}>
-        {this.props.value}
-      </button>
-    );
-  }
-}
-```
+- In Mandarin (at least in Taiwan), we call this game '圈圈叉叉' while '圈 (chiuān)' means 'circles' and '叉 (chā)' means 'crosses'.
 
 ---
 
-```javascript
-```
+### Features
 
-```javascript
-```
+- Bilingual instructions in English and Tranditional Chinese.
+- Plays games with 2 players.
+- Player 1 can choose to start from X or O.
+- Shows Current Player status.
+- Shows Game Result message (which player won & if it was a draw).
+- Players can review game history.
+- Players can play this game for multiple times.
 
-```javascript
-```
+### Future Features
 
-```javascript
-```
+- Styling of the game
+- mobile responsive
+- deploy the game
 
-```javascript
-```
+---
 
-```javascript
-```
+- More game modes: 1 player (plays games with computer), 2 players, 2 players with game history (current version)
+- Display the location for each move in the format (col, row) in the move history list.
+- Bold the currently selected item in the move list.
+- Rewrite Board to use two loops to make the squares instead of hardcoding them.
+  <!-- * Add a toggle button that lets you sort the moves in either ascending or descending order. -->
+- When someone wins, highlight the three squares that caused the win.
 
-```javascript
-```
+---
 
-```javascript
-```
-
-```javascript
-```
-
-```javascript
-```
-
-```javascript
-```
-
-```javascript
-```
-
-```javascript
-```
-
-```javascript
-```
-
-```javascript
-```
+©2020 Ellie Chen - All Rights Reserved.

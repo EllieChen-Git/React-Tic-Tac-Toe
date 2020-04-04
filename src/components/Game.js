@@ -7,7 +7,7 @@ class Game extends React.Component {
     super(props);
     this.state = {
       history: [{ squares: Array(9).fill(null) }],
-      xIsNext: true,
+      xIsCurrent: null,
       stepNumber: 0
     };
   }
@@ -20,16 +20,15 @@ class Game extends React.Component {
     if (this.calculateWinner(squares) || squares[i]) {
       return;
     }
-    const { xIsNext } = this.state;
-    squares[i] = xIsNext ? "X" : "O";
+    const { xIsCurrent } = this.state;
+
+    squares[i] = xIsCurrent ? "X" : "O";
+
     this.setState({
       history: history.concat([{ squares: squares }]),
-      // Use concat() here as it doesn’t mutate the original array
-      xIsNext: !xIsNext,
+      xIsCurrent: !xIsCurrent,
       stepNumber: history.length
     });
-    console.log(history);
-    console.log(squares);
   };
 
   calculateWinner(squares) {
@@ -57,39 +56,74 @@ class Game extends React.Component {
   }
 
   jumpTo(step) {
-    this.setState({ stepNumber: step, xIsNext: step % 2 === 0 });
+    this.setState({ stepNumber: step, xIsCurrent: step % 2 === 0 });
   }
 
+  handleButtonClickX = () => {
+    return this.setState({
+      xIsCurrent: true
+    });
+  };
+
+  handleButtonClickO = () => {
+    return this.setState({
+      xIsCurrent: false
+    });
+  };
+
   render() {
-    const { history, xIsNext, stepNumber } = this.state;
+    const { history, xIsCurrent, stepNumber } = this.state;
     const current = history[stepNumber];
     const winner = this.calculateWinner(current.squares);
     const moves = history.map((step, move) => {
-      const desc = move ? "Go to move #" + move : "Go to game start";
+      const desc = move
+        ? "Go to move 回到步驟 #" + move
+        : "Go to game start 回到最初";
       return (
         <li key={move}>
           <button onClick={() => this.jumpTo(move)}>{desc}</button>
         </li>
       );
     });
+    console.log(moves);
 
     let status;
     if (winner) {
-      status = `Congrutulations, Player ${winner} won!`;
+      status = `Player ${winner} won! 玩家 ${winner} 勝利 !`;
     } else if (!current.squares.includes(null)) {
-      status = `No one won this game`;
+      status = `Called it a draw! 雙方平手 !`;
     } else {
-      status = `Next player: Player ${xIsNext ? "X" : "O"}`;
+      status = `Current player: Player ${
+        xIsCurrent ? "X" : "O"
+      } 當前玩家 : 玩家 ${xIsCurrent ? "X" : "O"}`;
     }
 
     return (
       <div className="game">
-        <div className="game-board">
-          <Board squares={current.squares} onClick={i => this.handleClick(i)} />
-        </div>
+        {/* game-info */}
         <div className="game-info">
-          <div>{status}</div>
-          <ol>{moves}</ol>
+          <h1>Let's Play Tic-Tac-To 一起來玩圈圈叉叉</h1>
+          <h3>Would you like to start with X or O? 請選擇由 X 或 O 開始</h3>
+          <button onClick={this.handleButtonClickX}>X</button>
+          <button onClick={this.handleButtonClickO}>O</button>
+          <h3>{status}</h3>
+
+          {/* game-board */}
+          <div className="game-board">
+            <Board
+              squares={current.squares}
+              onClick={i => this.handleClick(i)}
+            />
+
+            <button onClick={() => window.location.reload()}>
+              Play Again! 再玩一次
+            </button>
+          </div>
+          {/* game-history */}
+          <div>
+            <h3>Review Game History 遊戲覆盤</h3>
+            <ol>{moves}</ol>
+          </div>
         </div>
       </div>
     );
