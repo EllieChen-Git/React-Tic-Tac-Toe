@@ -1,5 +1,13 @@
 import React from "react";
 import Board from "./Board";
+// import Button from 'react-bootstrap/Button';
+import {
+  Container,
+  Col,
+  ButtonGroup,
+  Button,
+  ListGroup,
+} from "react-bootstrap";
 
 // Game component: renders a board with placeholder values
 class Game extends React.Component {
@@ -8,11 +16,11 @@ class Game extends React.Component {
     this.state = {
       history: [{ squares: Array(9).fill(null) }],
       xIsCurrent: null,
-      stepNumber: 0
+      stepNumber: 0,
     };
   }
 
-  handleClick = i => {
+  handleClick = (i) => {
     const history = this.state.history.slice(0, this.state.stepNumber + 1);
     const current = history[history.length - 1];
     const squares = current.squares.slice();
@@ -27,7 +35,7 @@ class Game extends React.Component {
     this.setState({
       history: history.concat([{ squares: squares }]),
       xIsCurrent: !xIsCurrent,
-      stepNumber: history.length
+      stepNumber: history.length,
     });
   };
 
@@ -40,7 +48,7 @@ class Game extends React.Component {
       [1, 4, 7],
       [2, 5, 8],
       [0, 4, 8],
-      [2, 4, 6]
+      [2, 4, 6],
     ];
     for (let i = 0; i < lines.length; i++) {
       const [a, b, c] = lines[i];
@@ -61,13 +69,13 @@ class Game extends React.Component {
 
   handleButtonClickX = () => {
     return this.setState({
-      xIsCurrent: true
+      xIsCurrent: true,
     });
   };
 
   handleButtonClickO = () => {
     return this.setState({
-      xIsCurrent: false
+      xIsCurrent: false,
     });
   };
 
@@ -81,7 +89,13 @@ class Game extends React.Component {
         : "Go to game start 回到最初";
       return (
         <li key={move}>
-          <button onClick={() => this.jumpTo(move)}>{desc}</button>
+          <Button
+            className="btn-long"
+            variant="outline-success"
+            onClick={() => this.jumpTo(move)}
+          >
+            {desc}
+          </Button>
         </li>
       );
     });
@@ -93,39 +107,57 @@ class Game extends React.Component {
     } else if (!current.squares.includes(null)) {
       status = `Called it a draw! 雙方平手 !`;
     } else {
-      status = `Current player: Player ${
-        xIsCurrent ? "X" : "O"
-      } 當前玩家 : 玩家 ${xIsCurrent ? "X" : "O"}`;
+      status = `Current player: Player ${xIsCurrent ? "X" : "O"} 
+      當前玩家 : 玩家 ${xIsCurrent ? "X" : "O"}`;
     }
 
     return (
-      <div className="game">
+      <Container className="game-container">
         {/* game-info */}
-        <div className="game-info">
-          <h1>Let's Play Tic-Tac-To 一起來玩圈圈叉叉</h1>
-          <h3>Would you like to start with X or O? 請選擇由 X 或 O 開始</h3>
-          <button onClick={this.handleButtonClickX}>X</button>
-          <button onClick={this.handleButtonClickO}>O</button>
+        <Col className="game-section">
+          <h1>Let's Play Tic-Tac-Toe</h1>
+          <h1>一起來玩圈圈叉叉</h1>
+          <h3>Would you like to start with X or O? </h3>
+          <h3>請選擇由 X 或 O 開始</h3>
+          <ButtonGroup>
+            <Button
+              className="btn-short"
+              variant="outline-info"
+              onClick={this.handleButtonClickX}
+            >
+              X
+            </Button>
+            <Button
+              className="btn-short"
+              variant="dark"
+              onClick={this.handleButtonClickO}
+            >
+              O
+            </Button>
+          </ButtonGroup>
           <h3>{status}</h3>
+        </Col>
+        {/* game-board */}
+        <Col className="game-section">
+          <Board
+            squares={current.squares}
+            onClick={(i) => this.handleClick(i)}
+          />
 
-          {/* game-board */}
-          <div className="game-board">
-            <Board
-              squares={current.squares}
-              onClick={i => this.handleClick(i)}
-            />
-
-            <button onClick={() => window.location.reload()}>
-              Play Again! 再玩一次
-            </button>
-          </div>
-          {/* game-history */}
-          <div>
-            <h3>Review Game History 遊戲覆盤</h3>
-            <ol>{moves}</ol>
-          </div>
-        </div>
-      </div>
+          <Button
+            className="btn-long"
+            variant="info"
+            onClick={() => window.location.reload()}
+          >
+            Play Again! 再玩一次
+          </Button>
+        </Col>
+        {/* game-history */}
+        <Col className="game-section">
+          <h3>Review Game History 遊戲覆盤</h3>
+          <ListGroup>{moves}</ListGroup>
+        </Col>
+      </Container>
     );
   }
 }
