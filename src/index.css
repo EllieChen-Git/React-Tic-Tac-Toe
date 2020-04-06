@@ -1,11 +1,9 @@
-/* body {
-  font: 14px "Century Gothic", Futura, sans-serif;
-  margin: 40px;
-  text-align: center;
-} */
+#root {
+  max-width: 700px;
+  margin: 0 auto;
+}
 
-ol,
-ul {
+ol {
   padding-left: 30px;
 }
 
@@ -45,7 +43,6 @@ h3 {
   margin-right: -1px;
   margin-top: -1px;
   padding: 0;
-  text-align: center;
 }
 
 .square:focus {
@@ -56,15 +53,13 @@ h3 {
   background: #ddd;
 }
 
-.game-container {
-  width: 800px;
-  padding-right: 30px;
-  padding-left: 30px;
-  margin-right: auto;
-  margin-left: auto;
-}
 .game-section {
   padding: 20px;
+}
+
+.game-board {
+  margin: 0 auto;
+  position: relative;
 }
 
 .btn-long {
@@ -74,4 +69,15 @@ h3 {
 
 .btn-short {
   width: 100px;
+}
+
+.play {
+  text-align: center;
+  margin: 10px 193px;
+}
+
+@media only screen and (max-width: 425px) {
+  .play {
+    margin: 0;
+  }
 }
