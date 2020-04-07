@@ -1,15 +1,11 @@
 import React from "react";
 import Board from "./Board";
-// import Button from 'react-bootstrap/Button';
-import {
-  Container,
-  Col,
-  ButtonGroup,
-  Button,
-  ListGroup,
-} from "react-bootstrap";
+import Container from "react-bootstrap/Container";
+import Col from "react-bootstrap/Col";
+import ButtonGroup from "react-bootstrap/ButtonGroup";
+import Button from "react-bootstrap/Button";
+import ListGroup from "react-bootstrap/ListGroup";
 
-// Game component: renders a board with placeholder values
 class Game extends React.Component {
   constructor(props) {
     super(props);
@@ -21,6 +17,7 @@ class Game extends React.Component {
   }
 
   handleClick = (i) => {
+    const { xIsCurrent } = this.state;
     const history = this.state.history.slice(0, this.state.stepNumber + 1);
     const current = history[history.length - 1];
     const squares = current.squares.slice();
@@ -28,8 +25,6 @@ class Game extends React.Component {
     if (this.calculateWinner(squares) || squares[i]) {
       return;
     }
-    const { xIsCurrent } = this.state;
-
     squares[i] = xIsCurrent ? "X" : "O";
 
     this.setState({
@@ -39,7 +34,7 @@ class Game extends React.Component {
     });
   };
 
-  calculateWinner(squares) {
+  calculateWinner = (squares) => {
     const lines = [
       [0, 1, 2],
       [3, 4, 5],
@@ -61,11 +56,11 @@ class Game extends React.Component {
       }
     }
     return null;
-  }
+  };
 
-  jumpTo(step) {
+  jumpTo = (step) => {
     this.setState({ stepNumber: step, xIsCurrent: step % 2 === 0 });
-  }
+  };
 
   handleButtonClickX = () => {
     return this.setState({
@@ -99,7 +94,6 @@ class Game extends React.Component {
         </li>
       );
     });
-    console.log(moves);
 
     let status;
     if (winner) {
@@ -137,11 +131,7 @@ class Game extends React.Component {
           <h3>{status}</h3>
         </Col>
         {/* game-board */}
-        <Col
-          md={{ span: 4, offset: 4 }}
-          // xs={{ span: 10, offset: 1 }}
-          className="game-section game-board"
-        >
+        <Col md={{ span: 4, offset: 4 }} className="game-section game-board">
           <div className="board">
             <Board
               squares={current.squares}

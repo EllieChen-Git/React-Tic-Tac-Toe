@@ -10,9 +10,13 @@
 
 - In Taiwan (we speak Mandarin and write in Traditional Chinese characters), we call this game '圈圈叉叉' while '圈 (chiuān)' means 'circles' and '叉 (chā)' means 'crosses'.
 
+---
+
 #### Demo
 
 ![demo](./public/demo.gif)
+
+---
 
 #### Features
 
@@ -23,6 +27,40 @@
 - Shows 'Game Result' message (which player won & if it was a draw).
 - Players can review 'Game History'.
 - Players can play this game multiple times.
+
+---
+
+#### Summary of Data Flow and Structure
+
+- One-way data flow (top to down): Game -> Board -> Square
+
+| :whale: Square :whale: | :bulb: Board :bulb: |       :cactus: Game :cactus:       |
+| :--------------------: | :-----------------: | :--------------------------------: |
+|      **(props)**       |     **(props)**     |                                    |
+|  value ( "X" or "O")   |    <- square[i]     |         <- current.squares         |
+|        onClick         |    <- onClick[i]    |       <- this.handleClick(i)       |
+|      ------------      |    ------------     |            ------------            |
+|                        |                     |            **(state)**             |
+|                        |                     |              history               |
+|                        |                     |             xIsCurrent             |
+|                        |                     |             stepNumber             |
+|      ------------      |    ------------     |            ------------            |
+|                        |                     | **(other functions in component)** |
+|                        |                     |      calculateWinner(squares)      |
+|                        |                     |        handleButtonClickX()        |
+|                        |                     |        handleButtonClickO()        |
+
+**1. Square**
+
+- 9 objects: If a square is clicked, the 'onClick' function will update the value of 'value' to 'X' or "O".
+
+**2. Board (render 9 squares)**
+
+- square[i]: an array with index 0-8, with value of null, "X", "O"
+
+**3. Game (render Board with placeholder values and other game info)**
+
+---
 
 #### Future Features
 

@@ -1,9 +1,8 @@
 import React from "react";
 import Square from "./Square";
 
-// Board: renders 9 squares.
-const Board = props => {
-  const renderSquare = i => {
+const Board = (props) => {
+  const renderSquare = (i) => {
     return <Square value={props.squares[i]} onClick={() => props.onClick(i)} />;
   };
 
